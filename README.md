@@ -43,7 +43,15 @@ The Café Employee Manager application is a full-stack web application designed 
     -   Node.js
     -   MySQL for database management
 
-## Setup
+## Setup with Docker
+
+1. Turn on Docker (I use Docker Desktop)
+2. Git clone this repo or download the .zip file and extract it to a project folder
+3. Change directory (cd) to the project folder
+4. Run "docker-compose up --build" and wait for it to finish building
+5. You should be able to see the app running on localhost:8080
+
+## Setup (If not using docker):
 
 1. **Database Setup (MySQL)**
 

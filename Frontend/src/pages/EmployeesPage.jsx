@@ -97,7 +97,7 @@ const EmployeesPage = () => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          mb: 4,
+          mb: 2,
           padding: 2,
           backgroundColor: '#61adff',
           color: 'white',

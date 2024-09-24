@@ -118,9 +118,9 @@ const CafesPage = () => {
         backgroundColor: '#f5f5f5',
         padding: '20px',
         maxWidth: '100%',
-        height: '90vh',
         display: 'flex',
         flexDirection: 'column',
+        height: '100vh', // Use full height of the viewport
       }}
     >
       <Box
@@ -141,6 +141,7 @@ const CafesPage = () => {
           Café and Employee Manager
         </Typography>
       </Box>
+      
       <TextField
         label="Filter by Location"
         variant="outlined"
@@ -148,19 +149,22 @@ const CafesPage = () => {
         onChange={(e) => setFilter(e.target.value)}
         sx={{ mb: 2, width: '300px' }}
       />
+      
       <Button variant="contained" color="primary" href="/cafe/add" sx={{ mb: 2, width: '300px', fontWeight: 'bold' }}>
         Add New Café
       </Button>
+      
       <Link to="/employees">
         <Button variant="contained" color="secondary" sx={{ mb: 2, width: '300px', fontWeight: 'bold' }}>
           View All Employees
         </Button>
       </Link>
+      
       <Box
         sx={{
-          flex: 1,
+          flex: 1, // Take up remaining space
           width: '100%',
-          overflowX: 'hidden',
+          overflowY: 'auto', // Allow vertical scrolling if necessary
         }}
       >
         <DataGrid
@@ -168,6 +172,7 @@ const CafesPage = () => {
           columns={columns}
           pageSize={10}
           rowHeight={80}
+          autoHeight // Enable auto height for DataGrid
           sx={{
             '& .MuiDataGrid-cell': {
               whiteSpace: 'normal',
@@ -185,6 +190,8 @@ const CafesPage = () => {
       </Box>
     </Container>
   );
+  
+  
 };
 
 export default CafesPage;

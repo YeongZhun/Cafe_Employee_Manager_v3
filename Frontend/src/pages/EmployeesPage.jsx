@@ -54,7 +54,6 @@ const EmployeesPage = () => {
       headerName: 'Café',
       width: 250,
       renderCell: (params) => {
-
         const cafe = params.row.EmployeeCafes?.[0]?.Cafe?.cafe || 'N/A';
         return cafe;
       },
@@ -81,7 +80,6 @@ const EmployeesPage = () => {
     },
   ];
 
-
   return (
     <Container
       sx={{
@@ -89,7 +87,7 @@ const EmployeesPage = () => {
         backgroundColor: '#f5f5f5',
         padding: '20px',
         maxWidth: '100%',
-        height: '90vh',
+        height: '100vh', // Use full height of the viewport
         display: 'flex',
         flexDirection: 'column',
       }}
@@ -112,6 +110,7 @@ const EmployeesPage = () => {
           Employee Manager
         </Typography>
       </Box>
+      
       <TextField
         label="Filter by Cafe Name"
         variant="outlined"
@@ -119,19 +118,22 @@ const EmployeesPage = () => {
         onChange={(e) => setFilter(e.target.value)}
         sx={{ mb: 2, width: '300px' }}
       />
+      
       <Button variant="contained" color="primary" href="/employee/add" sx={{ mb: 2, width: '300px', fontWeight: 'bold' }}>
         Add New Employee
       </Button>
+      
       <Link to="/cafes">
         <Button variant="contained" color="secondary" sx={{ mb: 2, width: '300px', fontWeight: 'bold' }}>
           View All Cafes
         </Button>
       </Link>
+      
       <Box
         sx={{
-          flex: 1,
+          flex: 1, // Take up remaining space
           width: '100%',
-          overflowX: 'hidden',
+          overflowY: 'auto', // Allow vertical scrolling if necessary
         }}
       >
         <DataGrid

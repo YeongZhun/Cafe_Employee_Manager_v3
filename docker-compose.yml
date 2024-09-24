@@ -19,8 +19,8 @@ services:
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
-      timeout: 5s
-      retries: 3
+      timeout: 10s
+      retries: 10
 
   backend:
     build: ./Backend
@@ -39,7 +39,8 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
-    command: ["sh", "-c", "sleep 10 && npm run seed"]
+    command: ["sh", "-c", "npm run seed && node app.js"]
+
     networks:
       - backend-network
 

@@ -17,5 +17,5 @@ COPY . .
 EXPOSE 3000
 
 # Run the seed command to initialize the database (only once)
-CMD ["sh", "-c", "npm run seed && npm run dev"]
+CMD ["node", "app.js"]
 

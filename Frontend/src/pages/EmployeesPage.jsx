@@ -3,10 +3,11 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { DataGrid } from '@mui/x-data-grid';
 import { Button, TextField, Container, Typography, Box } from '@mui/material';
 import { fetchEmployees, deleteEmployee } from '../api/api';
+import { Link } from 'react-router-dom';
 
 const EmployeesPage = () => {
-  const [filter, setFilter] = useState(''); 
-  const queryClient = useQueryClient(); 
+  const [filter, setFilter] = useState('');
+  const queryClient = useQueryClient();
 
   const { data: employees, isLoading } = useQuery({
     queryKey: ['employees'],
@@ -16,7 +17,7 @@ const EmployeesPage = () => {
   const deleteMutation = useMutation({
     mutationFn: deleteEmployee,
     onSuccess: () => {
-      queryClient.invalidateQueries(['employees']); 
+      queryClient.invalidateQueries(['employees']);
     },
     onError: (error) => console.error('Delete error:', error),
   });
@@ -30,9 +31,10 @@ const EmployeesPage = () => {
   if (isLoading) return <div>Loading...</div>;
 
   const filteredEmployees = filter
-    ? employees?.filter(employee =>
-      employee.cafe.toLowerCase().includes(filter.toLowerCase())
-    ) || []
+    ? employees?.filter(employee => {
+      const cafe = employee.EmployeeCafes?.[0]?.Cafe?.cafe; 
+      return cafe && cafe.toLowerCase().includes(filter.toLowerCase());
+    }) || []
     : employees || [];
 
   const columns = [
@@ -50,10 +52,10 @@ const EmployeesPage = () => {
     {
       field: 'cafe',
       headerName: 'Café',
-      width: 250, 
+      width: 250,
       renderCell: (params) => {
- 
-        const cafe = params.row.EmployeeCafes?.[0]?.Cafe?.cafe || 'N/A'; 
+
+        const cafe = params.row.EmployeeCafes?.[0]?.Cafe?.cafe || 'N/A';
         return cafe;
       },
     },
@@ -86,8 +88,8 @@ const EmployeesPage = () => {
         marginTop: '20px',
         backgroundColor: '#f5f5f5',
         padding: '20px',
-        maxWidth: '100%', 
-        height: '90vh', 
+        maxWidth: '100%',
+        height: '90vh',
         display: 'flex',
         flexDirection: 'column',
       }}
@@ -102,7 +104,7 @@ const EmployeesPage = () => {
           backgroundColor: '#61adff',
           color: 'white',
           borderRadius: '8px',
-          width: '97%', 
+          width: '97%',
           textAlign: 'center'
         }}
       >
@@ -111,7 +113,7 @@ const EmployeesPage = () => {
         </Typography>
       </Box>
       <TextField
-        label="Filter by Name"
+        label="Filter by Cafe Name"
         variant="outlined"
         value={filter}
         onChange={(e) => setFilter(e.target.value)}
@@ -120,27 +122,32 @@ const EmployeesPage = () => {
       <Button variant="contained" color="primary" href="/employee/add" sx={{ mb: 2, width: '300px', fontWeight: 'bold' }}>
         Add New Employee
       </Button>
+      <Link to="/cafes">
+        <Button variant="contained" color="secondary" sx={{ mb: 2, width: '300px', fontWeight: 'bold' }}>
+          View All Cafes
+        </Button>
+      </Link>
       <Box
         sx={{
           flex: 1,
           width: '100%',
-          overflowX: 'hidden', 
+          overflowX: 'hidden',
         }}
       >
         <DataGrid
           rows={filteredEmployees}
           columns={columns}
           pageSize={10}
-          rowHeight={80} 
+          rowHeight={90}
           sx={{
             '& .MuiDataGrid-cell': {
-              whiteSpace: 'normal', 
-              overflow: 'auto', 
-              maxWidth: '200px', 
+              whiteSpace: 'normal',
+              overflow: 'hidden',
+              maxWidth: '200px',
             },
             '& .MuiDataGrid-columnHeaders': {
-              fontWeight: 'bold', 
-              fontSize: '16px', 
+              fontWeight: 'bold',
+              fontSize: '16px',
             },
             '& .MuiDataGrid-columnSeparator': {
               display: 'none',

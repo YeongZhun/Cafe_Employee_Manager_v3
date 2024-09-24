@@ -10,13 +10,13 @@ const AddEditEmployeePage = () => {
   console.log(empId);
 
   const [employee, setEmployee] = useState({
-    id: '', 
+    id: '',
     name: '',
     email_address: '',
     phone_number: '',
     cafe: '',
     gender: '',
-    start_date: '', 
+    start_date: '',
   });
 
   const [unsavedChanges, setUnsavedChanges] = useState(false);
@@ -30,7 +30,7 @@ const AddEditEmployeePage = () => {
           console.log(fetchedEmployee);
           setEmployee({
             ...fetchedEmployee,
-            id: fetchedEmployee.id || '', 
+            id: fetchedEmployee.id || '',
             start_date: fetchedEmployee.start_date || '',
           });
         } catch (error) {
@@ -44,17 +44,29 @@ const AddEditEmployeePage = () => {
 
   const mutation = useMutation({
     mutationFn: empId ? () => updateEmployee(empId, employee) : () => createEmployee(employee),
-    onSuccess: () => navigate('/employees'), 
+    onSuccess: () => navigate('/employees'),
     onError: (error) => {
-      alert(`Error: ${error.message}`); 
+      alert(`Error: ${error.message}`);
     },
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setEmployee((prevEmployee) => ({ ...prevEmployee, [name]: value }));
+  
+    setEmployee((prevEmployee) => {
+      const updatedEmployee = { ...prevEmployee, [name]: value };
+  
+      
+      if (name === 'cafe' && value === '') {
+        updatedEmployee.start_date = ''; 
+      }
+  
+      return updatedEmployee;
+    });
+  
     setUnsavedChanges(true);
   };
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -67,7 +79,7 @@ const AddEditEmployeePage = () => {
         return;
       }
     }
-    navigate('/employees'); 
+    navigate('/employees');
   };
 
   return (
@@ -92,7 +104,7 @@ const AddEditEmployeePage = () => {
               required
               variant="outlined"
               size="small"
-              disabled={!!empId} 
+              disabled={!!empId}
             />
             <TextField
               name="name"
@@ -155,6 +167,7 @@ const AddEditEmployeePage = () => {
               variant="outlined"
               size="small"
               placeholder="YYYY-MM-DD"
+              disabled={!employee.cafe}  // Disable if cafe is empty
             />
             <Box display="flex" justifyContent="flex-end" gap={1}>
               <Button type="submit" variant="contained" color="primary">

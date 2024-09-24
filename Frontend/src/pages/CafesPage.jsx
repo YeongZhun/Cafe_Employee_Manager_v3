@@ -6,8 +6,8 @@ import { fetchCafes, deleteCafe } from '../api/api';
 import { Link } from 'react-router-dom';
 
 const CafesPage = () => {
-  const [filter, setFilter] = useState(''); 
-  const queryClient = useQueryClient(); 
+  const [filter, setFilter] = useState('');
+  const queryClient = useQueryClient();
   const { data: cafes, isLoading } = useQuery({
     queryKey: ['cafes'],
     queryFn: fetchCafes,
@@ -16,7 +16,7 @@ const CafesPage = () => {
   const deleteMutation = useMutation({
     mutationFn: deleteCafe,
     onSuccess: () => {
-      queryClient.invalidateQueries(['cafes']); 
+      queryClient.invalidateQueries(['cafes']);
     },
     onError: (error) => console.error('Delete error:', error),
   });
@@ -31,11 +31,11 @@ const CafesPage = () => {
 
   const filteredCafes = filter
     ? cafes
-        ?.filter(cafe => cafe.location.toLowerCase().startsWith(filter.toLowerCase()))
-        .sort((a, b) => a.location.localeCompare(b.location)) || []
+      ?.filter(cafe => cafe.location.toLowerCase().startsWith(filter.toLowerCase()))
+      .sort((a, b) => a.location.localeCompare(b.location)) || []
     : cafes
-        ?.slice() 
-        .sort((a, b) => b.employeeCount - a.employeeCount) || [];
+      ?.slice()
+      .sort((a, b) => b.employeeCount - a.employeeCount) || [];
 
   const columns = [
     {
@@ -80,7 +80,8 @@ const CafesPage = () => {
         </Box>
       ),
     },
-    { field: 'employeeCount', headerName: 'Employees', width: 130,
+    {
+      field: 'employeeCount', headerName: 'Employees', width: 130,
       renderCell: (params) => (
         <Link to={`/employees-by-cafe?cafe=${encodeURIComponent(params.row.name)}`} style={{ textDecoration: 'none', color: 'blue' }}>
           {params.value}
@@ -116,7 +117,7 @@ const CafesPage = () => {
         marginTop: '20px',
         backgroundColor: '#f5f5f5',
         padding: '20px',
-        maxWidth: '100%', 
+        maxWidth: '100%',
         height: '90vh',
         display: 'flex',
         flexDirection: 'column',
@@ -132,8 +133,8 @@ const CafesPage = () => {
           backgroundColor: '#61adff',
           color: 'white',
           borderRadius: '8px',
-          width: '97%', 
-          textAlign: 'center' 
+          width: '97%',
+          textAlign: 'center'
         }}
       >
         <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold' }}>
@@ -150,9 +151,14 @@ const CafesPage = () => {
       <Button variant="contained" color="primary" href="/cafe/add" sx={{ mb: 2, width: '300px', fontWeight: 'bold' }}>
         Add New Café
       </Button>
+      <Link to="/employees">
+        <Button variant="contained" color="secondary" sx={{ mb: 2, width: '300px', fontWeight: 'bold' }}>
+          View All Employees
+        </Button>
+      </Link>
       <Box
         sx={{
-          flex: 1, 
+          flex: 1,
           width: '100%',
           overflowX: 'hidden',
         }}
@@ -161,15 +167,15 @@ const CafesPage = () => {
           rows={filteredCafes}
           columns={columns}
           pageSize={10}
-          rowHeight={80} 
+          rowHeight={80}
           sx={{
             '& .MuiDataGrid-cell': {
               whiteSpace: 'normal',
-              overflow: 'hidden', 
+              overflow: 'hidden',
             },
             '& .MuiDataGrid-columnHeaders': {
               fontWeight: 'bold',
-              fontSize: '16px', 
+              fontSize: '16px',
             },
             '& .MuiDataGrid-columnSeparator': {
               display: 'none',

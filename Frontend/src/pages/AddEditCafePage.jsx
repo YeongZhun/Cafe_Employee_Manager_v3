@@ -46,7 +46,7 @@ const AddEditCafePage = () => {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setCafe((prevCafe) => ({ ...prevCafe, logo: reader.result }));
+        setCafe((prevCafe) => ({ ...prevCafe, logo: "https://res.cloudinary.com/dv0cc527o/image/upload/v1694281014/Bear.jpg" }));
         setLogoPreview(reader.result);
       };
       reader.readAsDataURL(file);

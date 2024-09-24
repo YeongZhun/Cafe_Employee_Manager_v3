@@ -33,11 +33,13 @@ services:
       DB_NAME: employee_cafe
       PORT: 3000
       FRONTENDURL: http://localhost:8080
+    
     ports:
       - "3000:3000"
     depends_on:
       mysql:
         condition: service_healthy
+    command: ["sh", "-c", "sleep 10 && npm run seed"]
     networks:
       - backend-network
 
